@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\CartItem;
+use App\Models\User;
+use App\Mail\OrderReceiptMail;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -42,8 +45,26 @@ class OrderController extends Controller
             ]);
         }
 
+        $user = auth()->user() ?? User::find(1);
+
+        // Ensure order has items loaded for the email view
+        $order->load('items');
+
+        try {
+            if ($user && $user->email) {
+                Mail::to($user->email)->send(new OrderReceiptMail($user, $order));
+            }
+        } catch (\Exception $e) {
+            \Log::error('Error enviando correo de recibo: ' . $e->getMessage());
+        }
+
+        
         CartItem::where('user_id', 1)->delete();
 
-        return ['message' => 'Compra simulada exitosa', 'order' => $order];
+        return [
+            'message' => 'Compra simulada exitosa',
+            'order' => $order
+        ];
     }
+
 }
