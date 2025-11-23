@@ -18,63 +18,54 @@ class OrderController extends Controller
             ->get();
     }
 
-    public function checkout()
+   public function checkout()
     {
-
         $userId = auth()->id();
-
         if (!$userId) {
             return response()->json(['error' => 'Usuario no autenticado'], 401);
         }
 
         $cart = CartItem::where('user_id', $userId)->get();
-
         if ($cart->isEmpty()) {
             return response()->json(['error' => 'El carrito está vacío'], 400);
         }
 
-     
         $total = $cart->sum(fn($item) => $item->precio_unitario * $item->cantidad);
 
-     
         $order = Order::create([
             'user_id' => $userId,
-            'total' => $total,
-            'status' => 'pagado-simulado'
+            'total'   => $total,
+            'status'  => 'pagado-simulado'
         ]);
-
 
         foreach ($cart as $item) {
             OrderItem::create([
-                'order_id' => $order->id,
-                'product_id' => $item->product_id,
-                'cantidad' => $item->cantidad,
+                'order_id'        => $order->id,
+                'product_id'      => $item->product_id,
+                'cantidad'        => $item->cantidad,
                 'precio_unitario' => $item->precio_unitario,
                 'nombre_producto' => $item->nombre_producto,
-                'imagen' => $item->imagen
+                'imagen'          => $item->imagen,
             ]);
         }
 
-    
         $user = User::find($userId);
-
-
         $order->load('items');
-
 
         try {
             Mail::to($user->email)->send(new OrderReceiptMail($user, $order));
         } catch (\Exception $e) {
-            \Log::error("Error enviando correo: " . $e->getMessage());
+            \Log::error("Error enviando correo de orden #{$order->id}: " . $e->getMessage());
         }
 
         CartItem::where('user_id', $userId)->delete();
 
-        return [
-            'message' => 'Compra exitosa',
+        return response()->json([
+            'message' => 'Compra exitosa. Recibo enviado al correo.',
             'order'   => $order
-        ];
+        ]);
     }
+
 
 
 }
