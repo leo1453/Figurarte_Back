@@ -20,19 +20,29 @@ class OrderController extends Controller
 
     public function checkout()
     {
-        $cart = CartItem::where('user_id', 1)->get();
+
+        $userId = auth()->id();
+
+        if (!$userId) {
+            return response()->json(['error' => 'Usuario no autenticado'], 401);
+        }
+
+        $cart = CartItem::where('user_id', $userId)->get();
 
         if ($cart->isEmpty()) {
             return response()->json(['error' => 'El carrito está vacío'], 400);
         }
 
+     
         $total = $cart->sum(fn($item) => $item->precio_unitario * $item->cantidad);
 
+     
         $order = Order::create([
-            'user_id' => 1,
+            'user_id' => $userId,
             'total' => $total,
             'status' => 'pagado-simulado'
         ]);
+
 
         foreach ($cart as $item) {
             OrderItem::create([
@@ -45,26 +55,26 @@ class OrderController extends Controller
             ]);
         }
 
-        $user = auth()->user() ?? User::find(1);
+    
+        $user = User::find($userId);
 
-        // Ensure order has items loaded for the email view
+
         $order->load('items');
 
+
         try {
-            if ($user && $user->email) {
-                Mail::to($user->email)->send(new OrderReceiptMail($user, $order));
-            }
+            Mail::to($user->email)->send(new OrderReceiptMail($user, $order));
         } catch (\Exception $e) {
-            \Log::error('Error enviando correo de recibo: ' . $e->getMessage());
+            \Log::error("Error enviando correo: " . $e->getMessage());
         }
 
-        
-        CartItem::where('user_id', 1)->delete();
+        CartItem::where('user_id', $userId)->delete();
 
         return [
-            'message' => 'Compra simulada exitosa',
-            'order' => $order
+            'message' => 'Compra exitosa',
+            'order'   => $order
         ];
     }
+
 
 }
