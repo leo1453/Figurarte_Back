@@ -7,6 +7,7 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PdfController;
 
 // Autenticación
 Route::post('/login', [AuthController::class, 'login']);
@@ -34,3 +35,7 @@ Route::delete('/cart', [CartController::class, 'clear']);
 // Pedidos
 Route::get('/orders', [OrderController::class, 'index']);
 Route::post('/checkout', [OrderController::class, 'checkout']);
+
+// PDFs
+Route::get('/orders/{id}/ticket', [PdfController::class, 'ticket']);
+Route::get('/orders/{id}/factura', [PdfController::class, 'factura']);
