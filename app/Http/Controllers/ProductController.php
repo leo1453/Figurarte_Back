@@ -7,9 +7,16 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return Product::all();
+        $query = Product::query();
+
+        if ($search = $request->query('search')) {
+            $query->where('name', 'like', "%{$search}%")
+                ->orWhere('description', 'like', "%{$search}%");
+        }
+
+        return response()->json($query->get());
     }
 
     public function show($id)
