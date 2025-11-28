@@ -36,6 +36,8 @@ Route::delete('/cart', [CartController::class, 'clear']);
 // Pedidos
 Route::get('/orders', [OrderController::class, 'index']);
 Route::post('/checkout', [OrderController::class, 'checkout']);
+Route::get('/orders/{id}', [OrderController::class, 'show']);
+
 
 // PDFs
 Route::get('/orders/{id}/ticket', [PdfController::class, 'ticket']);
