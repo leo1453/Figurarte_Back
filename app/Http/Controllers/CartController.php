@@ -64,4 +64,20 @@ class CartController extends Controller
     {
         return CartItem::where('user_id', $user_id)->get();
     }
+
+    public function updateQuantity(Request $request, $id)
+    {
+        $item = CartItem::where('id', $id)
+            ->where('user_id', $request->user_id)
+            ->first();
+
+        if (!$item) {
+            return response()->json(['error' => 'Item no encontrado'], 404);
+        }
+
+        $item->cantidad = $request->cantidad;
+        $item->save();
+
+        return response()->json(['message' => 'Cantidad actualizada']);
+    }
 }
