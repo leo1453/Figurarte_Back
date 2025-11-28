@@ -7,6 +7,8 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PdfController;
+use App\Http\Controllers\UserController;
 
 // Autenticación
 Route::post('/login', [AuthController::class, 'login']);
@@ -34,3 +36,15 @@ Route::delete('/cart', [CartController::class, 'clear']);
 // Pedidos
 Route::get('/orders', [OrderController::class, 'index']);
 Route::post('/checkout', [OrderController::class, 'checkout']);
+
+// PDFs
+Route::get('/orders/{id}/ticket', [PdfController::class, 'ticket']);
+Route::get('/orders/{id}/factura', [PdfController::class, 'factura']);
+
+// Usuarios
+Route::get('/users', [UserController::class, 'index']);
+Route::get('/users/{id}', [UserController::class, 'show']);
+Route::post('/users', [UserController::class, 'store']);
+Route::put('/users/{id}', [UserController::class, 'update']);
+Route::delete('/users/{id}', [UserController::class, 'destroy']);
+
