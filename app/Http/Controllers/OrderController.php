@@ -12,12 +12,15 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function index()
-    {
-        return Order::with('items.product')
-            ->where('user_id', 1)
-            ->get();
-    }
+ public function index(Request $request)
+{
+    $userId = $request->user_id;
+
+    return Order::with('items.product')
+        ->where('user_id', $userId)
+        ->get();
+}
+
 
 public function checkout(Request $request)
 {

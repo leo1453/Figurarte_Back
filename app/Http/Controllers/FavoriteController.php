@@ -7,33 +7,45 @@ use Illuminate\Http\Request;
 
 class FavoriteController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $userId = $request->user_id;
+
+        if (!$userId) {
+            return response()->json(['error' => 'Falta user_id'], 400);
+        }
+
         return Favorite::with('product')
-            ->where('user_id', 1)
+            ->where('user_id', $userId)
             ->get();
     }
 
     public function toggle(Request $request)
     {
         $request->validate([
-            'product_id' => 'required|exists:products,id'
+            'product_id' => 'required|exists:products,id',
+            'user_id' => 'required|exists:users,id',
         ]);
 
-        $fav = Favorite::where('user_id', 1)
-                       ->where('product_id', $request->product_id)
-                       ->first();
+        $userId = $request->user_id;
+        $productId = $request->product_id;
 
-        if ($fav) {
-            $fav->delete();
-            return ['message' => 'Eliminado de favoritos'];
+        // ¿Ya existe?
+        $existing = Favorite::where('user_id', $userId)
+                            ->where('product_id', $productId)
+                            ->first();
+
+        if ($existing) {
+            $existing->delete();
+            return response()->json(['message' => 'Eliminado de favoritos']);
         }
 
+        // Crear favorito
         Favorite::create([
-            'user_id' => 1,
-            'product_id' => $request->product_id
+            'user_id' => $userId,
+            'product_id' => $productId
         ]);
 
-        return ['message' => 'Agregado a favoritos'];
+        return response()->json(['message' => 'Agregado a favoritos']);
     }
 }
