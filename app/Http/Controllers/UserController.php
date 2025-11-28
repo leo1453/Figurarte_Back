@@ -71,4 +71,34 @@ class UserController extends Controller
 
         return response()->json(['message' => 'Usuario eliminado correctamente']);
     }
+
+public function updateProfile(Request $request)
+{
+    $request->validate([
+        'id' => 'required|integer',
+        'name' => 'required|string|max:255',
+        'email' => ['required', 'email', Rule::unique('users')->ignore($request->id)],
+        'shipping_address' => 'nullable|string|max:255',
+        'password' => 'nullable|min:6',
+    ]);
+
+    // ⭐ FALTA ESTO PARA GARANTIZAR QUE EL ID VIENE LIMPIO / USABLE
+    $request->merge(['id' => (int) $request->id]);
+
+    $user = User::find($request->id);
+
+    if (!$user) return response()->json(['error' => 'Usuario no encontrado'], 404);
+
+    $data = $request->only(['name', 'email', 'shipping_address']);
+
+    if ($request->filled('password')) {
+        $data['password'] = Hash::make($request->password);
+    }
+
+    $user->update($data);
+
+    return response()->json(['message' => 'Perfil actualizado', 'user' => $user]);
+}
+
+
 }

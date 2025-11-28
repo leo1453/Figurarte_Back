@@ -44,6 +44,7 @@ Route::get('/orders/{id}', [OrderController::class, 'show']);
 // PDFs
 Route::get('/orders/{id}/ticket', [PdfController::class, 'ticket']);
 Route::get('/orders/{id}/factura', [PdfController::class, 'factura']);
+Route::put('/users/profile', [UserController::class, 'updateProfile']);
 
 // Usuarios
 Route::get('/users', [UserController::class, 'index']);
@@ -51,4 +52,3 @@ Route::get('/users/{id}', [UserController::class, 'show']);
 Route::post('/users', [UserController::class, 'store']);
 Route::put('/users/{id}', [UserController::class, 'update']);
 Route::delete('/users/{id}', [UserController::class, 'destroy']);
-
