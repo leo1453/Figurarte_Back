@@ -7,17 +7,19 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index(Request $request)
-    {
-        $query = Product::query();
+   public function index(Request $request)
+{
+    $search = $request->query('search');
 
-        if ($search = $request->query('search')) {
-            $query->where('name', 'like', "%{$search}%")
-                ->orWhere('description', 'like', "%{$search}%");
-        }
+    $query = Product::query();
 
-        return response()->json($query->get());
+    if ($search) {
+        $query->where('nombre', 'LIKE', "%{$search}%");
     }
+
+    return $query->get();
+}
+
 
     public function show($id)
     {
