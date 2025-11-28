@@ -42,6 +42,54 @@ class ProductsSeeder extends Seeder
                 'stock' => 8,
                 'categoria' => 'Vocaloid'
             ],
+             [
+                'nombre' => 'LUNK RN',
+                'descripcion' => 'LUNK RN Pola cifras Anime Girl Figura Traje de baño versión 16 cm Figurita coleccionable RN Pola cifras de Acción Decoración de computadora Regalos para Fans',
+                'precio' => 3299.00,
+                'imagen' => 'https://m.media-amazon.com/images/I/51wZi-1KDTL._AC_SY300_SX300_QL70_ML2_.jpg',
+                'stock' => 8,
+                'categoria' => 'Vocaloid'
+            ],
+             [
+                'nombre' => 'LUNK RN',
+                'descripcion' => 'LUNK RN Pola cifras Anime Girl Figura Traje de baño versión 16 cm Figurita coleccionable RN Pola cifras de Acción Decoración de computadora Regalos para Fans',
+                'precio' => 3299.00,
+                'imagen' => 'https://m.media-amazon.com/images/I/51wZi-1KDTL._AC_SY300_SX300_QL70_ML2_.jpg',
+                'stock' => 8,
+                'categoria' => 'Vocaloid'
+            ],
+             [
+                'nombre' => 'LUNK RN',
+                'descripcion' => 'LUNK RN Pola cifras Anime Girl Figura Traje de baño versión 16 cm Figurita coleccionable RN Pola cifras de Acción Decoración de computadora Regalos para Fans',
+                'precio' => 3299.00,
+                'imagen' => 'https://m.media-amazon.com/images/I/51wZi-1KDTL._AC_SY300_SX300_QL70_ML2_.jpg',
+                'stock' => 8,
+                'categoria' => 'Vocaloid'
+            ],
+             [
+                'nombre' => 'LUNK RN',
+                'descripcion' => 'LUNK RN Pola cifras Anime Girl Figura Traje de baño versión 16 cm Figurita coleccionable RN Pola cifras de Acción Decoración de computadora Regalos para Fans',
+                'precio' => 3299.00,
+                'imagen' => 'https://m.media-amazon.com/images/I/51wZi-1KDTL._AC_SY300_SX300_QL70_ML2_.jpg',
+                'stock' => 8,
+                'categoria' => 'Vocaloid'
+            ],
+             [
+                'nombre' => 'LUNK RN',
+                'descripcion' => 'LUNK RN Pola cifras Anime Girl Figura Traje de baño versión 16 cm Figurita coleccionable RN Pola cifras de Acción Decoración de computadora Regalos para Fans',
+                'precio' => 3299.00,
+                'imagen' => 'https://m.media-amazon.com/images/I/51wZi-1KDTL._AC_SY300_SX300_QL70_ML2_.jpg',
+                'stock' => 8,
+                'categoria' => 'Vocaloid'
+            ],
+             [
+                'nombre' => 'LUNK RN',
+                'descripcion' => 'LUNK RN Pola cifras Anime Girl Figura Traje de baño versión 16 cm Figurita coleccionable RN Pola cifras de Acción Decoración de computadora Regalos para Fans',
+                'precio' => 3299.00,
+                'imagen' => 'https://m.media-amazon.com/images/I/51wZi-1KDTL._AC_SY300_SX300_QL70_ML2_.jpg',
+                'stock' => 8,
+                'categoria' => 'Vocaloid'
+            ],
         ];
 
         foreach ($productos as $p) {
