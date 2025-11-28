@@ -10,6 +10,8 @@ use App\Mail\OrderReceiptMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 
+
+
 class OrderController extends Controller
 {
  public function index(Request $request)
@@ -59,6 +61,10 @@ public function checkout(Request $request)
 
     // Cargar items para mandarlos al front
     $order->load('items');
+// 📨 Enviar correo al usuario
+$user = User::find($userId);
+
+Mail::to($user->email)->send(new OrderReceiptMail($user, $order));
 
     // Vaciar carrito
     CartItem::where('user_id', $userId)->delete();
